@@ -6,6 +6,7 @@ export default function authMiddleware(req, res, next) {
 
     if (!token) {
         res.sendStatus(401);
+        console.log('No token provided.');
         return;
     }
 
@@ -13,6 +14,7 @@ export default function authMiddleware(req, res, next) {
         const session = await db.collection('sessions').findOne({ token });
         if (!session) {
             res.sendStatus(401);
+            console.log('Não tem session')
             return;
         }
 
@@ -22,7 +24,7 @@ export default function authMiddleware(req, res, next) {
             return;
         }
 
-        res.locals.user = user;
+        res.locals.session = session;
 
         next();
     } catch (error) {

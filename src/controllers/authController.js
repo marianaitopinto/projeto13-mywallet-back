@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
 import joi from 'joi';
+import { ObjectId } from 'mongodb';
 
 import db from '../db.js';
 
@@ -17,11 +18,18 @@ export async function login(req, res) {
         const user = await db.collection("users").findOne({ usermail: req.body.usermail });
         if (!user) return res.sendStatus(404);
         if (user && bcrypt.compareSync(req.body.password, user.password)) {
+
             const token = uuid();
-            await db.collection("sessions").insertOne({ token, userId: user._id });
-            res.send(token);
+
+            await db.collection('sessions').insertOne({ userId: user._id, token });
+
+            console.log(user)
+            console.log(token)
+            return res.status(200).send({ token, name: user.name });
         } else {
-            res.sendStatus(401);
+            console.log(user)
+            console.log('Não autorizado');
+            return res.sendStatus(401);
         }
     } catch (error) {
         console.log("Error logging in user.", error);
