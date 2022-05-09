@@ -1,6 +1,7 @@
 import db from '../db.js';
 import dayjs from 'dayjs';
 import { ObjectId } from 'mongodb';
+import joi from 'joi';
 
 export async function getAllMovements(req, res) {
     const user = res.locals.user;
@@ -24,7 +25,8 @@ export async function createMovement(req, res) {
 
     const movementSchema = joi.object({
         value: joi.number().required(),
-        description: joi.string().required()
+        description: joi.string().required(),
+        type: joi.string().required()
     });
     const { error } = movementSchema.validate(req.body);
 
