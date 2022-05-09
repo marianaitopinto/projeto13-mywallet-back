@@ -1,9 +1,10 @@
 import {Router} from 'express';
 import { getAllMovements, createMovement } from '../controllers/movementsController.js';
+import { authMiddleware } from '../middlewares/authMiddleware.js';
 
 const movementRouter = Router();
 
-movementRouter.get('/resume', getAllMovements);
-movementRouter.post('/create', createMovement); //colocar schema aqui
+movementRouter.get('/transactions', authMiddleware, getAllMovements);
+movementRouter.post('/transactions', authMiddleware, createMovement); //colocar schema aqui
 
 export default movementRouter;
