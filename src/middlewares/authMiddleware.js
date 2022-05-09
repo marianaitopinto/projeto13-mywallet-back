@@ -24,7 +24,7 @@ export default function authMiddleware(req, res, next) {
             return;
         }
 
-        res.locals.session = session;
+        res.locals.user = user;
 
         next();
     } catch (error) {
