@@ -1,6 +1,6 @@
 import db from '../db.js';
-import joi from 'joi';
 import dayjs from 'dayjs';
+import { ObjectId } from 'mongodb';
 
 export async function getAllMovements(req, res) {
     const user = res.locals.user;
@@ -38,5 +38,22 @@ export async function createMovement(req, res) {
         return res.sendStatus(201);
     } catch {
         res.status(500).send("Error creating movement.");
+    }
+}
+
+export async function deleteMovement(req, res) {
+    const user = res.locals.user;
+    const {id} = req.params;
+    console.log('tentando apagar')
+    try {
+        await db.collection('movements').deleteOne({
+            $and: [
+                { _id: new ObjectId(id) },
+                { user: user._id}
+            ]
+        });
+        res.sendStatus(200);
+    } catch (error) {
+        res.send(error).status(500);
     }
 }
