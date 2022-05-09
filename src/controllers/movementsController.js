@@ -22,14 +22,13 @@ export async function createMovement(req, res) {
     console.log(req.body)
     console.log(user)
 
-    /*const movementSchema = joi.object({
+    const movementSchema = joi.object({
         value: joi.number().required(),
-        description: joi.string().required(),
-        type: joi.string().required()
+        description: joi.string().required()
     });
     const { error } = movementSchema.validate(req.body);
 
-    if (error) return res.sendStatus(422);*/
+    if (error) return res.sendStatus(422);
 
     try {
         console.log('antes do await')
