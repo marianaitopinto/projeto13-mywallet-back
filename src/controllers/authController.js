@@ -40,7 +40,7 @@ export async function register(req, res) {
     const registerSchema = joi.object({
         name: joi.string().required(),
         usermail: joi.string().required().pattern(/\S+@\S+\.\S+/),
-        password: joi.string().required().pattern(/(?=^.{6,}$)((?=.*\d)(?=.*\W+))(?![.\n])(?=.*[a-z]).*$/)
+        password: joi.string().required()
     });
 
     const { error } = registerSchema.validate(req.body);
